@@ -1,0 +1,25 @@
+---
+- resources:
+    label: Unraid Array
+    cpu: true
+    memory: true
+    disk: /mnt/user
+
+- datetime:
+    text_size: xl
+    format:
+      dateStyle: short
+      timeStyle: short
+      hour12: true
+
+- search:
+    provider: duckduckgo
+    showSearchSuggestions: true
+    target: _blank
+
+- openmeteo:
+    label: Home
+    latitude: 0 # TODO: set your real latitude
+    longitude: 0 # TODO: set your real longitude
+    units: metric # change to `imperial` for °F
+    cache: 5

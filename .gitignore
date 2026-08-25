@@ -1,0 +1,6 @@
+# Real secrets live here locally only — never commit this file.
+# Copy .env.example to .env and fill in real values.
+.env
+
+# Homepage writes its logfile here at runtime
+config/logs/

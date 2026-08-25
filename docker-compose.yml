@@ -1,0 +1,56 @@
+services:
+  homepage-docker-proxy:
+    image: ghcr.io/tecnativa/docker-socket-proxy:latest
+    container_name: homepage-docker-proxy
+    networks: [proxy]
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+      CONTAINERS: 1
+      INFO: 1
+      VERSION: 1
+      PING: 1
+      POST: 0
+      EVENTS: 0
+    restart: unless-stopped
+    # No published ports — only homepage (same "proxy" network) needs to reach this.
+
+  homepage:
+    image: ghcr.io/gethomepage/homepage:latest
+    container_name: homepage
+    networks: [proxy]
+    ports:
+      - "3000:3000"
+    depends_on:
+      - homepage-docker-proxy
+    volumes:
+      - ./config:/app/config
+      # Read-only, for the `resources` disk stat in widgets.yaml (Unraid user shares / array view).
+      - /mnt/user:/mnt/user:ro
+    environment:
+      PUID: 1000
+      PGID: 1000
+      HOMEPAGE_ALLOWED_HOSTS: ${HOMEPAGE_ALLOWED_HOSTS}
+      HOMEPAGE_AUTH_ENABLED: "true"
+      HOMEPAGE_AUTH_PASSWORD: ${HOMEPAGE_AUTH_PASSWORD}
+      HOMEPAGE_AUTH_SECRET: ${HOMEPAGE_AUTH_SECRET}
+      HOMEPAGE_EXTERNAL_URL: ${HOMEPAGE_EXTERNAL_URL}
+      # Passed through so services.yaml/widgets.yaml can reference {{HOMEPAGE_VAR_...}} without secrets in the yaml itself.
+      HOMEPAGE_VAR_JELLYFIN_API_KEY: ${HOMEPAGE_VAR_JELLYFIN_API_KEY}
+      HOMEPAGE_VAR_PLEX_TOKEN: ${HOMEPAGE_VAR_PLEX_TOKEN}
+      HOMEPAGE_VAR_SEERR_API_KEY: ${HOMEPAGE_VAR_SEERR_API_KEY}
+      HOMEPAGE_VAR_TRACEARR_API_KEY: ${HOMEPAGE_VAR_TRACEARR_API_KEY}
+      HOMEPAGE_VAR_TAUTULLI_API_KEY: ${HOMEPAGE_VAR_TAUTULLI_API_KEY}
+      HOMEPAGE_VAR_QBITTORRENT_USERNAME: ${HOMEPAGE_VAR_QBITTORRENT_USERNAME}
+      HOMEPAGE_VAR_QBITTORRENT_PASSWORD: ${HOMEPAGE_VAR_QBITTORRENT_PASSWORD}
+      HOMEPAGE_VAR_PROWLARR_API_KEY: ${HOMEPAGE_VAR_PROWLARR_API_KEY}
+      HOMEPAGE_VAR_RADARR_API_KEY: ${HOMEPAGE_VAR_RADARR_API_KEY}
+      HOMEPAGE_VAR_SONARR_API_KEY: ${HOMEPAGE_VAR_SONARR_API_KEY}
+      HOMEPAGE_VAR_AUTOBRR_API_KEY: ${HOMEPAGE_VAR_AUTOBRR_API_KEY}
+      HOMEPAGE_VAR_HOMEASSISTANT_TOKEN: ${HOMEPAGE_VAR_HOMEASSISTANT_TOKEN}
+      HOMEPAGE_VAR_IMMICH_API_KEY: ${HOMEPAGE_VAR_IMMICH_API_KEY}
+    restart: unless-stopped
+
+networks:
+  proxy:
+    external: true

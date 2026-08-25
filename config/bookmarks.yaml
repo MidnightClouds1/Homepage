@@ -1,0 +1,17 @@
+---
+- Bookmarks:
+    - Unraid WebGUI:
+        - abbr: UN
+          href: http://LAN_IP_HERE/
+
+    - Cloudflare:
+        - abbr: CF
+          href: https://dash.cloudflare.com/
+
+    - GitHub:
+        - abbr: GH
+          href: https://github.com/
+
+    - Claude:
+        - abbr: CL
+          href: https://claude.ai/

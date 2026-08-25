@@ -1,0 +1,45 @@
+---
+title: Homelab
+theme: dark
+# Homepage's color palette only ships named Tailwind palettes, not arbitrary hex —
+# `blue` is the closest built-in match to #3498db. See chat summary if you want to
+# chase the exact hex via custom.css instead.
+color: blue
+
+headerStyle: boxedWidgets
+statusStyle: dot
+
+quicklaunch:
+  searchDescriptions: true
+  provider: duckduckgo
+
+layout:
+  Media & Requests:
+    tab: Media & Requests
+    style: row
+    columns: 3
+  Downloads & Automation:
+    tab: Downloads & Automation
+    style: row
+    columns: 4
+  Smart Home & Photos:
+    tab: Smart Home & Photos
+    style: row
+    columns: 3
+  File Sharing:
+    tab: File Sharing
+    style: row
+    columns: 3
+  Network & Infra:
+    tab: Network & Infra
+    style: row
+    columns: 3
+  Utilities:
+    tab: Utilities
+    style: row
+    columns: 4
+  Bookmarks:
+    tab: Bookmarks
+    style: row
+    columns: 4
+    initiallyCollapsed: true
